@@ -28,6 +28,10 @@
 
 目標：`anson1217/XianTu` 的 `personal-pages` 分支，沿用 `.github/workflows/pages.yml`。公開網址：<https://anson1217.github.io/XianTu/>。
 
+程式修補提交：`add6e89e5342d683e9ffee2f90a9416a0d9191a6`。玩家於 2026-11-17 啟用 fork 的 Actions，確認 Pages 工作流程為 active 後，以本次驗收文件更新重新觸發部署。
+
+本機部署包：`XianTu-personal-pages.zip`（11,030,915 bytes），SHA-256：`4b5cece932968efdf81a134cdc2cb8692ae0bf82270756b7d0350a9ac01f1122`，含 LICENSE、NOTICE 與 .nojekyll。
+
 推送該分支自動觸發 Pages 工作流程，亦保留手動執行及 v* tag 的觸發方式。最新部署結果應核對該 fork 的 Actions 執行紀錄與線上靜態檢查，不以本機 build 成功代替部署成功。
 
 手機搬檔及再部署步驟見 [personal-pages-handoff.md](personal-pages-handoff.md)。
