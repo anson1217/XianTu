@@ -20,7 +20,9 @@
     "serve": "webpack-dev-server --mode development",
     "lint": "eslint . --ext .ts,.vue --fix",
     "lint:check": "eslint . --ext .ts,.vue",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:npc": "node --import ./scripts/test-loader.mjs ./scripts/test-npc-realm.mjs",
+    "test:reading": "node scripts/test-reading.mjs"
   },
   "dependencies": {
     "@vueuse/core": "^14.1.0",

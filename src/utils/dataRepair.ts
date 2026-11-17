@@ -16,6 +16,7 @@ import { cloneDeep } from 'lodash';
 import { isSaveDataV3, migrateSaveDataToLatest } from '@/utils/saveMigration';
 import { validateSaveDataV3 } from '@/utils/saveValidationV3';
 import { normalizeBackpackCurrencies } from '@/utils/currencySystem';
+import { repairNpcRealm } from '@/utils/npcRealm';
 
 /**
  * 修复并清洗存档数据，确保所有必需字段存在且格式正确
@@ -508,7 +509,7 @@ function repairNpc(npc: NpcProfile): NpcProfile {
   // 年龄已自动从出生日期计算,删除年龄字段
 
   // 修复境界
-  repaired.境界 = repairRealm(repaired.境界);
+  repaired.境界 = repairNpcRealm(repaired.境界);
 
   // 修复先天六司
   if (!repaired.先天六司 || typeof repaired.先天六司 !== 'object') {

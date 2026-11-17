@@ -2876,9 +2876,5 @@ const syncGameState = async () => {
     padding: 0.4rem 0.6rem 0.7rem;
   }
 
-  .prose {
-    font-size: 16px;
-    line-height: 1.9;
-  }
 }
 </style>

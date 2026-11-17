@@ -12,6 +12,8 @@ import { AIBidirectionalSystem } from '@/utils/AIBidirectionalSystem';
 import { createJoinedSectState } from '@/utils/sectSystemFactory';
 import { rollD20 } from '@/utils/diceRoller';
 import { realmRank } from '@/utils/realmOrder';
+import { normalizeNpcRealm } from '@/utils/npcRealm';
+import { toast } from '@/utils/toast';
 import {
   buildSectEvolvePrompt, buildSectLeadershipPrompt, buildSectLibraryPrompt, buildSectManageInitPrompt,
   buildSectManageSettlePrompt, buildSectMembersPrompt, buildSectShopPrompt, buildSectTasksPrompt, type TaskMapContext,
@@ -376,6 +378,8 @@ export async function generateMembers(ctx: SectContext): Promise<{ added: number
         skipped++;
         continue;
       }
+      const realm = normalizeNpcRealm(m.境界);
+      if (!realm) throw new Error(`同门「${name}」的境界无法识别，未写入本次生成资料，请重试`);
       rel[name] = {
         与玩家关系: '同门',
         好感度: 50,
@@ -383,6 +387,7 @@ export async function generateMembers(ctx: SectContext): Promise<{ added: number
         实时关注: false,
         背包: { 灵石: { 下品: 0, 中品: 0, 上品: 0, 极品: 0 }, 物品: {} },
         ...m,
+        境界: realm,
         名字: name,
         势力归属: sectName,
         宗门: sectName,
@@ -397,7 +402,7 @@ export async function generateMembers(ctx: SectContext): Promise<{ added: number
 export async function evolveMember(ctx: SectContext, member: { key: string; name: string; gender: string; position: string; realm: string }) {
   const sectName = ctx.sectName.value;
   const l = ctx.leadership.value || {};
-  const parsed = await askJson<{ 职位?: string; 境界?: string }>('演化同门实力', buildSectEvolvePrompt({
+  const parsed = await askJson<{ 职位?: string; 境界?: unknown }>('演化同门实力', buildSectEvolvePrompt({
     sectName,
     member,
     playerRealm: ctx.playerRealm.value,
@@ -416,7 +421,11 @@ export async function evolveMember(ctx: SectContext, member: { key: string; name
     const npc = save?.社交?.关系?.[member.key];
     if (!npc) throw new Error('找不到目标角色存档');
     if (parsed.职位) npc.职位 = parsed.职位;
-    if (parsed.境界) npc.境界 = parsed.境界;
+    if ('境界' in parsed) {
+      const realm = normalizeNpcRealm(parsed.境界);
+      if (realm) npc.境界 = realm;
+      else toast.warning(`「${member.name}」的演化境界无效，已保留原境界`);
+    }
   });
   await commit();
 }

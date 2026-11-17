@@ -102,8 +102,7 @@ export default (env, argv) => {
           type: 'asset/resource',
           generator: {
             filename: 'assets/[name][ext]',
-            // 图标固定从云端站点取，酒馆/本地等相对路径环境下也不会 404
-            ...(isProduction ? { publicPath: 'https://www.ddct.top/' } : {}),
+            // 随当前静态站点部署，兼容 GitHub Pages 仓库子路径。
           },
         },
       ],

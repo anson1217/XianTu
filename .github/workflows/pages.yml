@@ -2,6 +2,8 @@ name: Deploy GitHub Pages
 
 on:
   push:
+    branches:
+      - 'personal-pages'
     tags:
       - 'v*'
   workflow_dispatch:
@@ -27,17 +29,21 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
           cache: npm
 
       - name: Install
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run test:npc
+          npm run type-check
+          npm run build
 
       - name: Add extra static pages
         run: |
+          cp LICENSE NOTICE dist/
           if [ -f "游戏介绍.html" ]; then
             cp "游戏介绍.html" "dist/游戏介绍.html"
           fi
