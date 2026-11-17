@@ -8,7 +8,7 @@ import { AIBidirectionalSystem } from '../src/utils/AIBidirectionalSystem.ts';
 import { runtime } from './test-runtime-mocks.mjs';
 
 globalThis.localStorage = { getItem: () => null };
-const examples = ['练气后期','練氣・後期','煉氣/四層','练气 六层','練氣·八層','筑基-中期','元嬰圓滿','凡人'];
+const examples = ['练气后期','練氣・後期','煉氣/四層','练气 六层','練氣·八層','築基期-中期','元嬰圓滿','凡人'];
 const expected = [['练气','后期'],['练气','后期'],['练气','四层'],['练气','六层'],['练气','八层'],['筑基','中期'],['元婴','圆满'],['凡人','']];
 examples.forEach((v,i) => {
   const realm = normalizeNpcRealm(v);
@@ -17,6 +17,7 @@ examples.forEach((v,i) => {
 });
 const object = { 名称:'練氣', 阶段:'第六層', 当前进度:42, 下一级所需:200, 突破描述:'保持原描述', 自定义:'保留' };
 assert.deepEqual(normalizeNpcRealm(object),object);
+assert.equal(normalizeNpcRealm('結丹境/後期').名称,'金丹');
 assert.equal(normalizeNpcRealm({...object,当前进度:'42'}).当前进度,42);
 for (const invalid of ['未知文字',null,undefined,42,[],{}, {名称:'练气',阶段:42}]) {
   assert.equal(normalizeNpcRealm(invalid),null);

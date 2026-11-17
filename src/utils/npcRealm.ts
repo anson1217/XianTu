@@ -2,17 +2,17 @@ import type { Realm } from '@/types/game';
 
 const aliases: Record<string, string> = {
   練: '练', 煉: '炼', 氣: '气', 體: '体', 嬰: '婴', 虛: '虚',
-  羅: '罗', 後: '后', 圓: '圆', 滿: '满', 極: '极', 層: '层', 階: '阶',
+  羅: '罗', 後: '后', 圓: '圆', 滿: '满', 極: '极', 層: '层', 階: '阶', 築: '筑', 結: '结',
 };
-const simplified = (s: string) => s.replace(/[練煉氣體嬰虛羅後圓滿極層階]/g, (c) => aliases[c]);
+const simplified = (s: string) => s.replace(/[練煉氣體嬰虛羅後圓滿極層階築結]/g, (c) => aliases[c]);
 const clean = (s: string) => simplified(s.trim()).replace(/[\s·・‧•.．/_—–\-:：()（）【】]/g, '');
-const realmPattern = /^(凡人|练气|炼气|筑基|金丹|元婴|化神|炼虚|合体|大乘|渡劫|真仙|金仙|太乙|大罗|淬体|凝气|通玄|化真|破虚|登天)(?:境)?(.*)$/;
+const realmPattern = /^(凡人|练气|炼气|筑基|金丹|结丹|元婴|化神|炼虚|合体|大乘|渡劫|真仙|金仙|太乙|大罗|淬体|凝气|通玄|化真|破虚|登天)(?:境|期)?(.*)$/;
 const stagePattern = /^(?:初期|早期|中期|后期|晚期|圆满|大圆满|巅峰|极境|第?[一二三四五六七八九十百零〇两\d]+层)?$/;
 
 function parseText(raw: string): { 名称: string; 阶段: string } | null {
   const match = clean(raw).match(realmPattern);
   if (!match || !stagePattern.test(match[2])) return null;
-  const name = match[1] === '炼气' ? '练气' : match[1];
+  const name = match[1] === '炼气' ? '练气' : match[1] === '结丹' ? '金丹' : match[1];
   if (name === '凡人' && match[2]) return null;
   return { 名称: name, 阶段: match[2].replace(/^早期$/, '初期').replace(/^晚期$/, '后期') };
 }

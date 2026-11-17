@@ -47,9 +47,9 @@ NPC 測試完全使用合成資料與模擬 AI 回應，會呼叫真實生成、
 ## GitHub Pages 再部署
 
 1. 在自己的 fork 開啟 **Settings → Pages → Build and deployment → Source → GitHub Actions**。
-2. 本版使用 `personal-pages` 部署分支，更新該分支會自動觸發原有的 Pages 工作流程。也可開啟 **Actions → Deploy GitHub Pages → Run workflow**，選擇包含修補的分支再執行。
+2. 本版使用自己 fork 的 `master` 部署分支，更新該分支會自動觸發原有的 Pages 工作流程。也可開啟 **Actions → Deploy GitHub Pages → Run workflow**，選擇 `master` 再執行；既有 `github-pages` 環境只允許此分支部署。
 3. 等待 `build` 與 `deploy` 都成功後，開啟 <https://anson1217.github.io/XianTu/>。若看見舊頁，重新整理／清除網站快取時避免勾選網站資料，以免清掉本地存檔。
-4. 除 `personal-pages` 外，普通分支 push 不會觸發 Pages 流程；需手動執行，或推送符合 `v*` 的版本 tag。不要向原作者儲存庫推送。
+4. 除 `master` 外，普通分支 push 不會觸發 Pages 流程。流程保留手動及 `v*` tag 的觸發方式，但環境仍可能拒絕非 `master` 來源；日常更新請使用自己 fork 的 `master`。不要向原作者儲存庫推送。
 
 相對 JS 與 PNG 路徑支援 `/XianTu/`。既有記憶體路由不依賴 Pages 的伺服器端路由重寫。單機入口仍是「独自修行」。公益 API／作者帳號／作者後端不列為個人部署可用的必要條件。
 
