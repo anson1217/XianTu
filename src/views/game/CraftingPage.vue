@@ -643,6 +643,8 @@ const start = async () => {
 
   .forge,
   .shelf {
+    /* 窄版由整页滚动；保留内容高度，避免溢出的控制项盖住材料架。 */
+    flex-shrink: 0;
     overflow: visible;
   }
 
