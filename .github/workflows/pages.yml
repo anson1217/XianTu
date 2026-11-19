@@ -38,6 +38,7 @@ jobs:
       - name: Build
         run: |
           npm run test:npc
+          node scripts/test-save-age.mjs
           npm run type-check
           npm run build
 

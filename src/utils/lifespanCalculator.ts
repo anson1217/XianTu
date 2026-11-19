@@ -27,6 +27,27 @@ export function calculateAgeFromBirthdate(birthTime: GameTime, currentTime: Game
   return Math.max(0, age); // 确保年龄不为负
 }
 
+/** 读档列表按各存档自己的日期显示年龄；旧档日期缺漏时保留原有数值，不修改存档。 */
+export function getPlayerAgeForDisplay(saveData: unknown): number {
+  const data = saveData as {
+    角色?: { 身份?: { 出生日期?: unknown }; 属性?: { 寿命?: { 当前?: unknown } } };
+    元数据?: { 时间?: unknown };
+  } | null;
+  const isDate = (value: unknown): value is GameTime => {
+    if (!value || typeof value !== 'object') return false;
+    const date = value as GameTime;
+    return Number.isInteger(date.年) && date.年 >= 0
+      && Number.isInteger(date.月) && date.月 >= 1 && date.月 <= 12
+      && Number.isInteger(date.日) && date.日 >= 1 && date.日 <= 31;
+  };
+  const birthdate = data?.角色?.身份?.出生日期;
+  const gameTime = data?.元数据?.时间;
+  if (isDate(birthdate) && isDate(gameTime)) return calculateAgeFromBirthdate(birthdate, gameTime);
+  const storedAge = data?.角色?.属性?.寿命?.当前;
+  return typeof storedAge === 'number' && Number.isFinite(storedAge) && storedAge >= 0
+    ? Math.floor(storedAge) : 18;
+}
+
 /**
  * 根据当前年龄和当前时间推算出生日期
  * @param currentAge 当前年龄

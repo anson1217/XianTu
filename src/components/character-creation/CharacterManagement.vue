@@ -276,7 +276,7 @@
 
                     <div class="save-badges">
                       <span class="realm-badge">{{ getRealmName(normalizeSaveDataV3(slot.存档数据)?.角色?.属性?.境界) }}</span>
-                      <span class="age-badge">{{ normalizeSaveDataV3(slot.存档数据)?.角色?.属性?.寿命?.当前 ?? 18 }}岁</span>
+                      <span class="age-badge">{{ getPlayerAgeForDisplay(normalizeSaveDataV3(slot.存档数据)) }}岁</span>
                     </div>
 
                     <div class="stat-grid">
@@ -346,7 +346,7 @@
 
                 <div class="save-badges">
                   <span class="realm-badge">{{ getRealmName(normalizeSaveDataV3(selectedCharacter.存档列表['云端修行'].存档数据)?.角色?.属性?.境界) }}</span>
-                  <span class="age-badge">{{ normalizeSaveDataV3(selectedCharacter.存档列表['云端修行'].存档数据)?.角色?.属性?.寿命?.当前 ?? 18 }}岁</span>
+                  <span class="age-badge">{{ getPlayerAgeForDisplay(normalizeSaveDataV3(selectedCharacter.存档列表['云端修行'].存档数据)) }}岁</span>
                 </div>
 
                 <div class="stat-grid">
@@ -491,6 +491,7 @@ import LegacySaveMigrationModal from './LegacySaveMigrationModal.vue';
 import type { CharacterProfile, SaveSlot } from '@/types/game';
 import "@/style.css";
 import { formatRealmWithStage } from '@/utils/realmUtils';
+import { getPlayerAgeForDisplay } from '@/utils/lifespanCalculator';
 import { toast } from '@/utils/toast';
 import { isTavernEnv } from '@/utils/tavern';
 import { ensureSaveDataHasTavernNsfw } from '@/utils/nsfw';
